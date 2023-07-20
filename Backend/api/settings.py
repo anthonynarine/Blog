@@ -137,8 +137,8 @@ AUTH_USER_MODEL = "accounts.CustomUser"
 # NEW
 REST_FRAMEWORK = { 
     "DEFAULT_PERMISSIONS_CLASSES": [
-        "rest_framework.permissions.allowan"
-    ]
+        "rest_framework.permissions.IsAuthenticated"
+    ],
 }
 
 # NEW
