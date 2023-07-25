@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'post',
     # 3rd party
     'rest_framework',
+    "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
 ]
@@ -139,6 +140,13 @@ AUTH_USER_MODEL = "accounts.CustomUser"
 REST_FRAMEWORK = { 
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated"
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+#SESSION AUTH IS USED TO POWER THE BROWSABLE API AND THE ABILITY TO LOG IN AND OUT
+        'rest_framework.authentication.SessionAuthentication',
+#TOKEN AUTH IS USED TO PASS THE TOKEN BACK AND FORTH IN THE HTTP HEADERS FOR THE API ITSELF
+        'rest_framework.authentication.TokenAuthentication',
+
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema", 
 }
