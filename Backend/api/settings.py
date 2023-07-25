@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
+    "dj_rest_auth", 
 ]
 
 MIDDLEWARE = [
@@ -133,10 +134,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-#.. NEW
+#.. ADDED
 AUTH_USER_MODEL = "accounts.CustomUser"
 
-#.. NEW
+#.. ADDED
 REST_FRAMEWORK = { 
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated"
@@ -151,19 +152,19 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema", 
 }
 
-# NEW..
+# ADDED..
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000"
 ]
 
-# NEW..   
+# ADDED..   
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://localhost:3000",
 ]
 
 
-# NEW.. 
+# ADDED.. 
 SPECTACULAR_SETTINGS = {
     "TITLE": "JULIA'S BLOG",
     "DESCRIPTION": "BUILDING A BLOG FOR MY KID",
