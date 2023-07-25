@@ -14,6 +14,6 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
 # this permission class will not allow logged out users to view post
 # logged in users can view the list page, but only admin users can see the  detial page
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (permissions.IsAdminUser)
+    # permission_classes = (permissions.IsAdminUser)
     querysetm = Post.objects.all()
     serializer_class = PostSerializer
