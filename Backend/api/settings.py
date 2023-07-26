@@ -42,10 +42,16 @@ INSTALLED_APPS = [
     'post',
     # 3rd party
     'rest_framework',
-    "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
+    # 3rd party for user registration
+    'allauth',
+    'allauth.account',
     "dj_rest_auth", 
+    'django.contrib.sites',
+    'allauth.socialaccount',
+    "rest_framework.authtoken",
+    'dj_rest_auth.registration',
 ]
 
 MIDDLEWARE = [
@@ -72,10 +78,21 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django.template.context_processors.request", # ADDED... FOR USER REG
             ],
         },
     },
 ]
+
+# ADDED.............
+# NEEDED SINCE BY DEFAULT AN EMAIL WIL BE SENT WHEN A NEW USER IS REGISTERED
+# ASKING THEM TO CONFIRM THEIR ACCOUNT. THIS PROJECT WILL OUTPUT THE EMAIL TO THE CONSOLE
+# RATHER THAN SET UP AND EMAIL SERVER. 
+EMAIL_BACKEND = "django.core.mail.backend.console.EmailBackend"
+
+# ADDED.....
+# SITE ID IS PART OF DJANGO'S BUILT IN SITES FRAMEWORK WHICH IS A WAY TO HOST MULTIPLE   WEBSITES FROM THE SAME DJANGO PROJECT. WE ONLY HAVE 1 BUT django-allauth USES THE SITES FRAMEWORK SO WE MUST SPECIFY A DEFAULT SETTING. 
+SITE_ID = 1 
 
 WSGI_APPLICATION = 'api.wsgi.application'
 
