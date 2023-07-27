@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework.permissions import IsAdminUser
 from .permissions import IsAuthorOrReadOnly
 
 from .models import Post
@@ -25,7 +26,7 @@ class UserViewset(viewsets.ModelViewSet):
     PostDetail is a viewset that provides the default create(), retrieve(), update(),
     partial_update(), destroy() and list() actions for the User model.
     """
-
+    permission_classes = [IsAdminUser]
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
 
