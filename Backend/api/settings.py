@@ -1,16 +1,22 @@
 
 
 from pathlib import Path
+from environs import Env
+
+# ..ADDED..
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-84#b^94qc!w(0a74k8e%m%brqi)*899laq)j@!*a=im0_&lz#n'
+SECRET_KEY = env.str('SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", default=False)
 
 ALLOWED_HOSTS = []
 
@@ -23,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    "whitenoise.runserver_nostatic", # ADDED....
     'django.contrib.staticfiles',
     #local
     'accounts',
@@ -44,7 +51,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware", # ADDED...
+    "corsheaders.middleware.CorsMiddleware",      # ADDED..
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -79,16 +87,13 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # ADDED.....
 # SITE ID IS PART OF DJANGO'S BUILT IN SITES FRAMEWORK WHICH IS A WAY TO HOST MULTIPLE   WEBSITES FROM THE SAME DJANGO PROJECT. WE ONLY HAVE 1 BUT django-allauth USES THE SITES FRAMEWORK SO WE MUST SPECIFY A DEFAULT SETTING. 
-SITE_ID = 1 
+SITE_ID = 1   # ADDED...
 
 WSGI_APPLICATION = 'api.wsgi.application'
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': env.dj_db_url("DATABASE_URL")  # ADDED...
 }
 
 
@@ -120,6 +125,13 @@ USE_TZ = True
 
 
 STATIC_URL = 'static/'
+
+# ADDED...
+STATICFILES_DIRS = [str(BASE_DIR.joinpath("static"))]
+STATIC_ROOT = str(BASE_DIR.joinpath("staticfiles"))
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -156,10 +168,14 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 
-# ADDED.. 
+# ADDED...
 SPECTACULAR_SETTINGS = {
-    "TITLE": "JULIA'S BLOG",
-    "DESCRIPTION": "BUILDING A BLOG FOR MY KID",
+    "TITLE": "Blog API Project",
+    "DESCRIPTION": "Building a Blog API to learn DRF.",
     "VERSION": "1.O.",
     "SERVICE_INCLUDE_SCHEMA": False,
 }
+
+
+# ADDED...
+ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
