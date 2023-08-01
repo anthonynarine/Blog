@@ -1,6 +1,7 @@
 
 
 from pathlib import Path
+import os
 from environs import Env
 
 # ..ADDED..
@@ -92,11 +93,18 @@ SITE_ID = 1   # ADDED...
 WSGI_APPLICATION = 'api.wsgi.application'
 
 
+# ADDED...
+# DATABASES = {
+#     'default': env.dj_db_url("DATABASE_URL")  
+    
+# }
+
+# DATABASES = {
+#     'default': dj_database_url.config()
+# }
 DATABASES = {
-    'default': env.dj_db_url("DATABASE_URL")  # ADDED...
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 }
-
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -173,7 +181,7 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "Blog API Project",
     "DESCRIPTION": "Building a Blog API to learn DRF.",
     "VERSION": "1.O.",
-    "SERVICE_INCLUDE_SCHEMA": False,
+    "SERVICE_INCLUDE_SCHEMA": True,
 }
 
 

@@ -1,19 +1,50 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser
 from .permissions import IsAuthorOrReadOnly
-
 from .models import Post
 from .serializers import PostSerializer, UserSerializer
 from django.contrib.auth import get_user_model
 
-# NOTE converted to viewsets from generics class based views
-
 class PostViewset(viewsets.ModelViewSet):
     """
-    PostList is a viewset that provides the default create(), retrieve(), update(),
-    partial_update(), destroy() and list() actions for the Post model.
-    It orders the posts by the time they were created.
-    It also applies the IsAuthorOrReadOnly permission to all the operations.
+    `PostViewset` is a viewset that provides CRUD (Create, Retrieve, Update, Delete)
+    operations for the Post model.
+
+    Example usage:
+    -------------
+    To create a new post:
+    ```
+    POST /api/posts/
+    {
+        "title": "New Post",
+        "content": "This is the content of the new post."
+    }
+    ```
+
+    To retrieve a post:
+    ```
+    GET /api/posts/{post_id}/
+    ```
+
+    To update a post:
+    ```
+    PUT /api/posts/{post_id}/
+    {
+        "title": "Updated Post",
+        "content": "This is the updated content of the post."
+    }
+    ```
+
+    To delete a post:
+    ```
+    DELETE /api/posts/{post_id}/
+    ```
+
+    Additional Notes:
+    -----------------
+    - The posts are ordered by the time they were created (ascending).
+    - The `IsAuthorOrReadOnly` permission is applied to all the operations, allowing only
+      the post's author to modify the post. Others can read the post (read-only access).
     """
 
     permission_classes = (IsAuthorOrReadOnly,)
@@ -23,12 +54,48 @@ class PostViewset(viewsets.ModelViewSet):
 
 class UserViewset(viewsets.ModelViewSet):
     """
-    PostDetail is a viewset that provides the default create(), retrieve(), update(),
-    partial_update(), destroy() and list() actions for the User model.
+    `UserViewset` is a viewset that provides CRUD operations for the User model.
+
+    Example usage:
+    -------------
+    To create a new user:
+    ```
+    POST /api/users/
+    {
+        "username": "newuser",
+        "email": "newuser@example.com",
+        "password": "strongpassword"
+    }
+    ```
+
+    To retrieve a user:
+    ```
+    GET /api/users/{user_id}/
+    ```
+
+    To update a user:
+    ```
+    PUT /api/users/{user_id}/
+    {
+        "username": "updateduser",
+        "email": "updateduser@example.com"
+    }
+    ```
+
+    To delete a user:
+    ```
+    DELETE /api/users/{user_id}/
+    ```
+
+    Additional Notes:
+    -----------------
+    - Only users with administrative privileges (IsAdminUser) can access these operations.
     """
+
     permission_classes = [IsAdminUser]
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
+
 
 
 """In Django Rest Framework, you have different levels of abstraction to implement your API views. The two main abstraction levels are Generic views and Viewsets.
