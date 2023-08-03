@@ -3,6 +3,7 @@
 from pathlib import Path
 import os
 from environs import Env
+import dj_database_url
 
 # ..ADDED..
 env = Env()
